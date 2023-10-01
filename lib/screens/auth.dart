@@ -24,26 +24,28 @@ class _AuthScreen extends State<AuthScreen> {
     if (!isValid) {
       return;
     }
-
     _form.currentState?.save();
-    if (_isLogin) {
-      // Log user in
-    } else {
-      // Sign user up
 
-      try {
+    try {
+      if (_isLogin) {
+        final userCredentials = _firebase.signInWithEmailAndPassword(
+            email: _enteredEmail, password: _enteredPassword);
+        // Log user in
+      } else {
+        // Sign user up
+
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
-      } on FirebaseAuthException catch (error) {
-        if (error.code == 'email-already-in-use') {
-          //....
-        }
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(error.message ?? 'Authentication failed'),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ));
       }
+    } on FirebaseAuthException catch (error) {
+      if (error.code == 'email-already-in-use') {
+        //....
+      }
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(error.message ?? 'Authentication failed'),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
     }
   }
 
