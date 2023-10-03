@@ -30,7 +30,7 @@ class _ChatScrreenState extends State<ChatScrreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Chat'),
+        title: const Text('Flutter Group Chat'),
         actions: [
           IconButton(
             onPressed: () {
